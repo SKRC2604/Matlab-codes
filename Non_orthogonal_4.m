@@ -2,28 +2,28 @@
 % Input
 clc;
 clear;
-n=3;   % Number of members
-I=[0.002280,0.003125,0.002280];   %Moment of inertia in m4
-L=[4,6,5];   %length in m
-A=[0.135,0.15,0.135];   %Member in number 
-theta=[90,0,-53.123];   %Angle in degrees
-uu=6;   %Number of unrestrained degree of freedom
+n=2;   % Number of members
+I=[2,3];   %Moment of inertia in m4
+L=[4, 5];   %length in m
+A=[1,1];   %Member in number 
+theta=[0,126.87];   %Angle in degrees
+uu=3;   %Number of unrestrained degree of freedom
 ur=6;   %Number of restrained degree of freedom
-uul=[1,2,3,4,5,6];   %Global labels of unrestrained degree of freedom
-url=[7,8,9,10,11,12];   %Global labels of restrained degree of freedom
-l1=[7,1,9,4,8,3];   %Global labels of member 1
-l2=[1,2,4,6,3,5];   %Global labels of member 2
-l3=[2,10,6,12,5,11];   %Global labels of member 2
-l=[l1;l2;l3];
+uul=[1,2,3];   %Global labels of unrestrained degree of freedom
+url=[4,5,6,7,8,9];   %Global labels of restrained degree of freedom
+l1=[4,1,7,3,6,2];   %Global labels of member 1
+l2=[5,1,9,3,8,2];   %Global labels of member 2
+   %Global labels of member 2
+l=[l1;l2];
 dof=uu+ur;   %Degree of freedom
 Ktotal=zeros(dof);
 Tt1=zeros(6);   %Transformation matrix for member 1
 Tt2=zeros(6);   %Transformation matrix for member 2
-Tt3=zeros(6);   %Transformation matrix for member 3
+  %Transformation matrix for member 3
 
-fem1=[40;-40;0;0;-60;-60];   %Local fixed end moments of member 1
-fem2=[88.88;-44.44;66.67;33.33;0;0];  %Local fixed end moments of member 2
-fem3=[0;0;0;0;0;0];  %Local fixed end moments of member 3
+fem1=[0;0;0;0;0;0];   %Local fixed end moments of member 1
+fem2=[0;0;0;0;0;0];  %Local fixed end moments of member 2
+  %Local fixed end moments of member 3
 
 
 %% Rotation co-efficient for each member
@@ -77,11 +77,7 @@ for i=1:n
         Tt2=T;
         Kg2=Kg;
         fembar2=Tt2'*fem2;
-     elseif i==3
-        Tt3=T;
-        Kg3=Kg;
-        fembar3=Tt3'*fem3;
-    
+   
     end
 end
 fprintf('Stiffness matrix of complete structure,[Ktotal]=\n');
@@ -99,14 +95,14 @@ fprintf('Inverse of unrestrained stiffness sub-matrix,[KuuInverse]=\n');
 disp(KuuInv);
 
 %% Creation of joint load vector
-jl=[-48.88;44.44;60;-66.67;0;-33.33;-40;60;0;0;0;0];   %Values given in kN or kNm
-jlu=[-48.88;44.44;60;-66.67;0;-33.33];   %Load vector in unrestrained dof
+jl=[0 0 -50 0 0 0 0 0 0]';   %Values given in kN or kNm
+jlu=[0;0;-50];   %Load vector in unrestrained dof
 delu=KuuInv*jlu;
 fprintf('Joint Load Vector,[jl]=\n');
 disp(jl);
 fprintf('Unrestrained displacement,[DelU]=\n');
 disp(delu);
-delr=[0;0;0;0;0;0;0];
+delr=[0;0;0;0;0;0;0;0;0;0];
 del=zeros(dof,1);
 del=[delu;delr];
 deli=zeros(6,1);
@@ -134,16 +130,7 @@ for i=1:n
            fprintf('Global global end moment matrix [MBar]=\n');
            disp(mbar2);
            
-            elseif i==3
-        delbar3=deli;
-        mbar3=(Kg3*delbar3)+fem3;
-         fprintf('Member Number');
-         disp(i);
-          fprintf('Global displacement matrix [DeltaBar]=\n');
-          disp(delbar3);
-           fprintf('Global global end moment matrix [MBar]=\n');
-           disp(mbar3);
-           
+         
     end
 end
 

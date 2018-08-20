@@ -3,10 +3,10 @@
 clc;
 clear;
 n=3;   % Number of members
-I=[0.002280,0.003125,0.002280];   %Moment of inertia in m4
-L=[4,6,5];   %length in m
-A=[0.135,0.15,0.135];   %Member in number 
-theta=[90,0,-53.123];   %Angle in degrees
+I=[1,1,1];   %Moment of inertia in m4
+L=[5,4,3.605];   %length in m
+A=[1,1,1];   %Member in number 
+theta=[53.13,0,-56.309];   %Angle in degrees
 uu=6;   %Number of unrestrained degree of freedom
 ur=6;   %Number of restrained degree of freedom
 uul=[1,2,3,4,5,6];   %Global labels of unrestrained degree of freedom
@@ -21,8 +21,8 @@ Tt1=zeros(6);   %Transformation matrix for member 1
 Tt2=zeros(6);   %Transformation matrix for member 2
 Tt3=zeros(6);   %Transformation matrix for member 3
 
-fem1=[40;-40;0;0;-60;-60];   %Local fixed end moments of member 1
-fem2=[88.88;-44.44;66.67;33.33;0;0];  %Local fixed end moments of member 2
+fem1=[0;0;0;0;0;0];   %Local fixed end moments of member 1
+fem2=[0;0;0;0;0;0];  %Local fixed end moments of member 2
 fem3=[0;0;0;0;0;0];  %Local fixed end moments of member 3
 
 
@@ -99,14 +99,14 @@ fprintf('Inverse of unrestrained stiffness sub-matrix,[KuuInverse]=\n');
 disp(KuuInv);
 
 %% Creation of joint load vector
-jl=[-48.88;44.44;60;-66.67;0;-33.33;-40;60;0;0;0;0];   %Values given in kN or kNm
-jlu=[-48.88;44.44;60;-66.67;0;-33.33];   %Load vector in unrestrained dof
+jl=[0;0;50;0;0;0;0;0;0;0;0;0];   %Values given in kN or kNm
+jlu=[0;0;50;0;0;0];   %Load vector in unrestrained dof
 delu=KuuInv*jlu;
 fprintf('Joint Load Vector,[jl]=\n');
 disp(jl);
 fprintf('Unrestrained displacement,[DelU]=\n');
 disp(delu);
-delr=[0;0;0;0;0;0;0];
+delr=[0;0;0;0;0;0;0;0;0;0];
 del=zeros(dof,1);
 del=[delu;delr];
 deli=zeros(6,1);

@@ -78,7 +78,7 @@ for i=1:n
 end
 fprintf('Stiffness matrix of complete structure,[Ktotal]=\n');
 disp(Ktotal);
-Kunr=zeros(uu);
+Kunr=zeros(3);
 for x=1:uu
     for y=1:uu
         Kunr(x,y)=Ktotal(x,y);
